@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Additions jusqu'à 20</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; line-height: 1.6; background: #f9f9f9; }
+    h1 { color: #2c3e50; }
+    .question { margin: 20px 0; padding: 15px; background: #fff; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    .choices button { margin: 5px; padding: 10px 20px; font-size: 16px; border-radius: 5px; border: none; background: #3498db; color: white; cursor: pointer; }
+    .choices button:hover { background: #2980b9; }
+    .feedback { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Additions jusqu'à 20</h1>
+  <p><strong>Objectif :</strong> Je peux calculer des additions simples.</p>
+  <p>Voici un exemple : <br>
+  Si j'ai <strong>7 pommes</strong> et j'en ajoute <strong>5 autres</strong>, j'aurai <strong>12 pommes</strong> au total.</p>
+
+  <div class="question">
+    <p><strong>Combien font 8 + 3 ?</strong></p>
+    <div class="choices">
+      <button onclick="verifier(10)">10</button>
+      <button onclick="verifier(11)">11</button>
+      <button onclick="verifier(12)">12</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <script>
+    function verifier(reponse) {
+      const feedback = document.getElementById("feedback");
+      if (reponse === 11) {
+        feedback.textContent = "Bravo ! C'est la bonne réponse.";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = "Essaie encore !";
+        feedback.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
 
