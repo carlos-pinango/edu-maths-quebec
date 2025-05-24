@@ -4,42 +4,75 @@
   <meta charset="UTF-8">
   <title>Additions jusqu'à 20</title>
   <style>
-    body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; line-height: 1.6; background: #f9f9f9; }
+    body { font-family: sans-serif; max-width: 700px; margin: auto; padding: 20px; background: #f9f9f9; }
     h1 { color: #2c3e50; }
-    .question { margin: 20px 0; padding: 15px; background: #fff; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-    .choices button { margin: 5px; padding: 10px 20px; font-size: 16px; border-radius: 5px; border: none; background: #3498db; color: white; cursor: pointer; }
-    .choices button:hover { background: #2980b9; }
+    .exercise { background: #fff; padding: 15px; margin: 15px 0; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
     .feedback { margin-top: 10px; font-weight: bold; }
+    .choices button { margin: 5px; padding: 8px 15px; font-size: 16px; border-radius: 5px; border: none; background: #3498db; color: white; cursor: pointer; }
+    .choices button:hover { background: #2980b9; }
+    input[type="number"] { width: 60px; padding: 5px; font-size: 16px; margin-right: 10px; }
   </style>
 </head>
 <body>
   <h1>Additions jusqu'à 20</h1>
   <p><strong>Objectif :</strong> Je peux calculer des additions simples.</p>
-  <p>Voici un exemple : <br>
-  Si j'ai <strong>7 pommes</strong> et j'en ajoute <strong>5 autres</strong>, j'aurai <strong>12 pommes</strong> au total.</p>
-
-  <div class="question">
-    <p><strong>Combien font 8 + 3 ?</strong></p>
-    <div class="choices">
-      <button onclick="verifier(10)">10</button>
-      <button onclick="verifier(11)">11</button>
-      <button onclick="verifier(12)">12</button>
-    </div>
-    <div class="feedback" id="feedback"></div>
-  </div>
+  <div id="exercises"></div>
 
   <script>
-    function verifier(reponse) {
-      const feedback = document.getElementById("feedback");
-      if (reponse === 11) {
-        feedback.textContent = "Bravo ! C'est la bonne réponse.";
-        feedback.style.color = "green";
-      } else {
-        feedback.textContent = "Essaie encore !";
-        feedback.style.color = "red";
+    function genererExercices(nb) {
+      const conteneur = document.getElementById("exercises");
+      for (let i = 0; i < nb; i++) {
+        const a = Math.floor(Math.random() * 11);
+        const b = Math.floor(Math.random() * (20 - a + 1));
+        const somme = a + b;
+
+        const div = document.createElement("div");
+        div.className = "exercise";
+        
+        const type = Math.random() < 0.5 ? 'choix' : 'saisie';
+        if (type === 'choix') {
+          const faux1 = somme + 1;
+          const faux2 = somme - 1 >= 0 ? somme - 1 : somme + 2;
+          const options = [somme, faux1, faux2].sort(() => 0.5 - Math.random());
+          div.innerHTML = `<p><strong>${a} + ${b} = ?</strong></p>`;
+          const btns = document.createElement("div");
+          btns.className = "choices";
+          options.forEach(opt => {
+            const btn = document.createElement("button");
+            btn.textContent = opt;
+            btn.onclick = () => {
+              feedback.textContent = opt == somme ? "Bravo !" : "Essaie encore !";
+              feedback.style.color = opt == somme ? "green" : "red";
+            };
+            btns.appendChild(btn);
+          });
+          const feedback = document.createElement("div");
+          feedback.className = "feedback";
+          div.appendChild(btns);
+          div.appendChild(feedback);
+        } else {
+          div.innerHTML = `<p><strong>${a} + ${b} = ?</strong></p>`;
+          const input = document.createElement("input");
+          input.type = "number";
+          const bouton = document.createElement("button");
+          bouton.textContent = "Vérifier";
+          const feedback = document.createElement("div");
+          feedback.className = "feedback";
+          bouton.onclick = () => {
+            const val = parseInt(input.value);
+            feedback.textContent = val === somme ? "Bravo !" : "Essaie encore !";
+            feedback.style.color = val === somme ? "green" : "red";
+          };
+          div.appendChild(input);
+          div.appendChild(bouton);
+          div.appendChild(feedback);
+        }
+
+        conteneur.appendChild(div);
       }
     }
+
+    genererExercices(10);
   </script>
 </body>
 </html>
-
